@@ -1,0 +1,22 @@
+server:
+  context-path: /item
+  port: 8082
+
+db-groups:
+  - list:
+      - host: localhost
+        port: 3306
+        name: omg
+        user: root
+        password: 123456
+        mappers:
+          - com.bjtu.item.db.mapper
+  - name: master
+    list:
+      - host: localhost
+        port: 3306
+        name: omg
+        user: root
+        password: 123456
+        mappers:
+          - com.bjtu.item.db.mapper
