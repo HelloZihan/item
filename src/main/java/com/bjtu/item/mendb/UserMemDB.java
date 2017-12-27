@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +19,8 @@ public class UserMemDB {
 	private static final Logger log = LoggerFactory.getLogger(UserMemDB.class);
 
 	private static SessionFactory sessionFactory;
-	public static Map<Long, User> userMap;
-	public static Map<String, User> userNameMap;
+	public static Map<Long, User> userMap = new HashMap<>();
+	public static Map<String, User> userNameMap = new HashMap<>();
 
 	@Autowired
 	private void inject(SessionFactory sessionFactory) {
@@ -45,5 +46,7 @@ public class UserMemDB {
 
 	public static synchronized void addUses(User user) {
 		userMap.put(user.getId(), user);
+		userNameMap.put(user.getName(), user);
+
 	}
 }
