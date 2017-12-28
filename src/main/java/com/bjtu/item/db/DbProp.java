@@ -3,9 +3,7 @@ package com.bjtu.item.db;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Created by zj on 17-9-20.
- */
+
 public class DbProp {
 
 	private static final AtomicInteger idx = new AtomicInteger(0);
