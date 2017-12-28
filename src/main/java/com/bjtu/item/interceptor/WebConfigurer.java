@@ -12,9 +12,9 @@ public class WebConfigurer extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("**/static/**")
+//        registry.addResourceHandler("**/static/**")
 //                .addResourceLocations("/Users/zhaojun/Documents/project/item/src/main/resources/static/");
-        .addResourceLocations("classpath:/static/");
+//        .addResourceLocations("classpath:/static/");
         super.addResourceHandlers(registry);
     }
 }
