@@ -6,9 +6,9 @@ CREATE TABLE `t_item` (
   `price` decimal(20,2) DEFAULT NULL,
   `create_time` bigint(20) DEFAULT NULL,
   `update_time` bigint(20) DEFAULT NULL,
-  `images` varchar(10240) DEFAULT NULL,
+  `images` longtext DEFAULT NULL,
   `stock` smallint(5) unsigned DEFAULT '0',
-  `desc` varchar(1024) DEFAULT NULL,
+  `desc` longtext DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

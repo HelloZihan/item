@@ -44,6 +44,7 @@ define(['jquery'], function($){
 		"submitOrder":host+"/item/api/json/order/add",
 		"getOrders":host+"/item/api/json/order/query",
 		"getGood":host+"/item/api/json/item/query",
+		"addGood":host+"/item/api/json/item/add",
 	}
 	return function(key){
 		return requestUrl[key];

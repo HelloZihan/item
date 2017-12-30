@@ -3,7 +3,7 @@ require.config({
         'jquery': 'jquery-1.8.0'
     }
 });
-require(['jquery','wangEditor'], function($,common) {
+require(['jquery','common','wangEditor'], function($,common) {
 	var base64 = "";
 	$("#file").on("change", function(event){
 		 var file = this.files[0];
@@ -43,7 +43,6 @@ require(['jquery','wangEditor'], function($,common) {
     	var store = $("#store").val();
     	var price = $("#price").val();
     	var detail = editor.txt.html();
-    	console.log(detail);
     	$.ajax({
     		type:"POST",
     		dataType:"json",
@@ -51,13 +50,14 @@ require(['jquery','wangEditor'], function($,common) {
     			"name":name,
     			"stock":store,
     			"images":base64,
-    			"price":price,
+    			"price":parseFloat(price),
     			"desc":detail,
     		},
-    		url:"#",
+    		url:common('addGood'),
     		success:function(data){
     			if(data.success){
     				alert("添加成功");
+    				window.location.href="index.html";
     			}else{
     				alert(data.errMsg);
     			}

@@ -100,7 +100,7 @@ require(['jquery', 'common', 'jqueryExtend'], function($,common) {
 					$(".outSideimg").attr("src",result.data.images);
 					$(".detailNowPrice span").text(result.data.price);
 					$(".spanCount").text(result.data.stock);
-					$(".descriptionTabBarCont").text(result.data.desc);
+					$(".descriptionTabBarCont").html(result.data.desc);
 				}else{
 					alert(result.errMsg);
 				}

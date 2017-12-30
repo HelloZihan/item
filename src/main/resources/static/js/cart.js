@@ -322,6 +322,7 @@ require(['jquery','common','jqueryExtend'], function($,common) {
 						if(data.success){
 							window.sessionStorage.removeItem("wh9528");
 							alert("提交成功");
+							window.location.href="index.html";
 						}else{
 							alert(data.errMsg);
 						}

@@ -89,6 +89,7 @@ public class JsonUserController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("id", user.getId());
 		map.put("name", user.getName());
+        map.put("role", user.getRole());
 		return ApiResult.succStr(map);
 	}
 

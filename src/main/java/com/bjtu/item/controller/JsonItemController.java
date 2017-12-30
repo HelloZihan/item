@@ -12,6 +12,10 @@ import com.bjtu.item.utils.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +40,8 @@ public class JsonItemController {
                                @RequestParam(value = "name") String name,
                                @RequestParam(value = "status",defaultValue = "1") Byte status,
                                @RequestParam(value = "price") Double price,
-                               @RequestParam(value = "desc") String desc,
-                               @RequestParam(value = "images") String images,
+                               @RequestParam(value = "desc", required = false) String desc,
+                               @RequestParam(value = "images", required = false) String images,
                                @RequestParam(value = "stock") Integer stock) {
 
 
@@ -140,4 +144,5 @@ public class JsonItemController {
             SessionContext.closeSilently(context);
         }
     }
+
 }
