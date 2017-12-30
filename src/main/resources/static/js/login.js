@@ -3,17 +3,16 @@ require.config({
         'jquery': 'jquery-1.8.0'
     }
 });
-require(['jquery'], function($) {
+require(['jquery','common'], function($,common) {
 	$("#submit").on("click",function(){
 		var data = {
 		 	"name":$("#account").val(),
 		 	"password":$("#password").val()
 		 }
-		 var url = "http://192.168.1.107:8082/item/api/json/user/login";
 		 $.ajax({
             type: "POST",
             dataType: "json",
-            url: url,
+            url: common("login"),
             data: data,
             success: function (result) {
                 if(result.success){
@@ -24,7 +23,7 @@ require(['jquery'], function($) {
                 }
             },
             error: function(data) {
-                alert("error:"+data);
+                alert("error:请求错误");
              }
          });
 	});

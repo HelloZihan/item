@@ -9,8 +9,11 @@ public class Item {
 	private Long createTime;
 	private Long updateTime;
 	private String desc;
-	private String image;
+	private String images;
 	private Integer stock;
+
+	public static Byte STATUS_ON = 1;
+	public static Byte STATUS_OFF = 2;
 
 	public Long getId() {
 		return id;
@@ -68,12 +71,12 @@ public class Item {
 		this.desc = desc;
 	}
 
-	public String getImage() {
-		return image;
+	public String getImages() {
+		return images;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setImages(String images) {
+		this.images = images;
 	}
 
 	public Integer getStock() {
@@ -94,7 +97,7 @@ public class Item {
 				", createTime=" + createTime +
 				", updateTime=" + updateTime +
 				", desc='" + desc + '\'' +
-				", image='" + image + '\'' +
+				", image=s'" + images + '\'' +
 				", stock=" + stock +
 				'}';
 	}

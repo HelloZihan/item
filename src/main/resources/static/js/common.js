@@ -34,5 +34,19 @@ define(['jquery'], function($){
 			});
 		});
 	}
+
+
+	var host = "http://127.0.0.1:8082";
+	var requestUrl = {
+		"login":host+"/item/api/json/user/login",
+		"register":host+"/item/api/json/user/register",
+		"getGoods":host+"/item/api/json/item/query",
+		"submitOrder":host+"/item/api/json/order/add",
+		"getOrders":host+"/item/api/json/order/query",
+		"getGood":host+"/item/api/json/item/query",
+	}
+	return function(key){
+		return requestUrl[key];
+	}
 	
 });

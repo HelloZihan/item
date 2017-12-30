@@ -1,8 +1,5 @@
 package com.bjtu.item.utils;
 
-/**
- * Created by zj on 17-9-22.
- */
 public class ObjectDataTypeUtil {
 
 	public static Byte toByte(Object o) {

@@ -3,7 +3,7 @@ require.config({
 		'jquery': 'jquery-1.8.0'
 	}
 });
-require(['jquery', 'common'], function($) {
+require(['jquery', 'common'], function($,common) {
 	//轮播图初始化
 	var $imgBtnLi = $('.imgBtn li');
 	var $sliderAImg = $('#slider a img');
@@ -42,73 +42,238 @@ require(['jquery', 'common'], function($) {
 
 	function autoSlider() {
 		return setInterval(function() {
-			if (iNow++ >= 4) {
+			if (iNow++ >= 2) {
 				iNow = 0;
 			}
 			slider();
 		}, 5000);
 	}
 	//ajax获取后台数据
-/*	function menu(){
+	function menu(){
+		var page = $('.pagerCur').text();
+		var hidden2 = $('.arrow.dsc').css("display");
+		var asc = true;
+		if(hidden2!="none"){
+			asc = false;
+		}
+		var name = $('.searchText').val();
 		$.ajax({
-			url : '#',
-			type : 'get',
+			url : common("getGoods"),
+			type : 'post',
 			data : {
-				cashOutGuid : cashoutguid
+				"page":page,
+				"order":asc,
+				"name":name
 			},
 			dataType : 'json',
 			success : function(data) {
-				console.log(data);
+				if(data.success){
+					getMenu(data);
+				}else{
+					alert(data.errMsg);
+				}
 			},
 			error : function(data) {
-				//弹出提示 获取数据失败
+				alert("请求错误");
 			}
 		});
 	}
-*/
+
+
 //json为自定义假数据，正式用时时ajax中的data
-//var json = [{"firstClassify":{"id":1,"parent_id":0,"name":"优选蔬菜","description":""},"secondClassify":[{"id":17,"parent_id":1,"name":"瓜类","description":null},{"id":27,"parent_id":1,"name":"调味品类","description":null},{"id":36,"parent_id":1,"name":"白菜类","description":null},{"id":38,"parent_id":1,"name":"番茄类","description":null}],"itemPictures":[{"id":2,"parent_id":17,"item":{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","createTime":null,"discount":1,"keyWords":null,"area":"哈尔滨","saleCount":null,"classify_id":26,"repertory":null,"recommend":null},"itemPic":{"id":2,"item_id":2,"url":"./image/goods/fruits_1.jpg"}},{"id":3,"parent_id":27,"item":{"id":3,"name":"香菜","price":30,"detail":"美容养颜","createTime":null,"discount":1,"keyWords":null,"area":"重庆","saleCount":null,"classify_id":28,"repertory":null,"recommend":null},"itemPic":{"id":3,"item_id":3,"url":"./image/goods/fruits_1.jpg"}},{"id":10,"parent_id":36,"item":{"id":10,"name":"小头菜","price":16,"detail":"健康无毒药","createTime":null,"discount":0.8,"keyWords":null,"area":"哈尔滨","saleCount":null,"classify_id":37,"repertory":null,"recommend":null},"itemPic":{"id":10,"item_id":10,"url":"./image/goods/fruits_1.jpg"}},{"id":11,"parent_id":38,"item":{"id":11,"name":"番茄","price":12,"detail":"很好的营养","createTime":null,"discount":0.3,"keyWords":null,"area":"哈尔滨","saleCount":null,"classify_id":39,"repertory":null,"recommend":null},"itemPic":{"id":11,"item_id":11,"url":"./image/goods/fruits_1.jpg"}}]},{"firstClassify":{"id":2,"parent_id":0,"name":"进口水果","description":null},"secondClassify":[{"id":8,"parent_id":2,"name":"荔枝类","description":null},{"id":9,"parent_id":2,"name":"樱桃类","description":null},{"id":29,"parent_id":2,"name":"雨林水果类","description":null},{"id":64,"parent_id":2,"name":"葡萄类","description":null}],"itemPictures":[{"id":4,"parent_id":29,"item":{"id":4,"name":"菠萝","price":29,"detail":"开胃消化","createTime":null,"discount":1,"keyWords":null,"area":"重庆","saleCount":null,"classify_id":30,"repertory":null,"recommend":null},"itemPic":{"id":4,"item_id":4,"url":"./image/goods/fruits_1.jpg"}},{"id":5,"parent_id":29,"item":{"id":5,"name":"榴莲","price":25,"detail":"一般人吃不了","createTime":null,"discount":1,"keyWords":null,"area":"美国","saleCount":null,"classify_id":31,"repertory":null,"recommend":null},"itemPic":{"id":5,"item_id":5,"url":"./image/goods/fruits_1.jpg"}},{"id":32,"parent_id":29,"item":{"id":32,"name":"菠萝蜜","price":33.9,"detail":"好","createTime":null,"discount":0.88,"keyWords":null,"area":"美国","saleCount":null,"classify_id":77,"repertory":null,"recommend":null},"itemPic":{"id":32,"item_id":32,"url":"./image/goods/fruits_1.jpg"}},{"id":22,"parent_id":64,"item":{"id":22,"name":"紫葡萄","price":13,"detail":"酸甜可口","createTime":null,"discount":1,"keyWords":null,"area":"大连","saleCount":null,"classify_id":65,"repertory":null,"recommend":null},"itemPic":{"id":22,"item_id":22,"url":"./image/goods/fruits_1.jpg"}}]},{"firstClassify":{"id":3,"parent_id":0,"name":"国产水果","description":null},"secondClassify":[{"id":18,"parent_id":3,"name":"桃类","description":null},{"id":24,"parent_id":3,"name":"香蕉类","description":null},{"id":44,"parent_id":3,"name":"苹果类","description":null},{"id":50,"parent_id":3,"name":"梨类","description":null},{"id":51,"parent_id":3,"name":"西瓜类","description":null},{"id":52,"parent_id":3,"name":"哈密瓜类","description":null}],"itemPictures":[{"id":30,"parent_id":18,"item":{"id":30,"name":"桃子","price":16.8,"detail":"赞","createTime":null,"discount":0.88,"keyWords":null,"area":"重庆","saleCount":null,"classify_id":75,"repertory":null,"recommend":null},"itemPic":{"id":30,"item_id":30,"url":"./image/goods/fruits_1.jpg"}},{"id":1,"parent_id":24,"item":{"id":1,"name":"香蕉","price":10,"detail":"高营养","createTime":null,"discount":1,"keyWords":null,"area":"陕西安康","saleCount":null,"classify_id":25,"repertory":null,"recommend":null},"itemPic":{"id":1,"item_id":1,"url":"./image/goods/fruits_1.jpg"}},{"id":31,"parent_id":44,"item":{"id":31,"name":"苹果","price":9.9,"detail":"好","createTime":null,"discount":0.88,"keyWords":null,"area":"渭南","saleCount":null,"classify_id":76,"repertory":null,"recommend":null},"itemPic":{"id":31,"item_id":31,"url":"./image/goods/fruits_1.jpg"}},{"id":23,"parent_id":51,"item":{"id":23,"name":"西瓜","price":13,"detail":"酸甜","createTime":null,"discount":1,"keyWords":null,"area":"大连","saleCount":null,"classify_id":66,"repertory":null,"recommend":null},"itemPic":{"id":23,"item_id":23,"url":"./image/goods/fruits_1.jpg"}}]},{"firstClassify":{"id":4,"parent_id":0,"name":"休闲食品","description":null},"secondClassify":[{"id":19,"parent_id":4,"name":"干脆面类","description":null},{"id":33,"parent_id":4,"name":"零食类","description":null},{"id":47,"parent_id":4,"name":"饼干类","description":null},{"id":48,"parent_id":4,"name":"薯片类","description":null},{"id":49,"parent_id":4,"name":"坚果类","description":null},{"id":56,"parent_id":4,"name":"葡萄干类","description":null}],"itemPictures":[{"id":8,"parent_id":33,"item":{"id":8,"name":"豆干","price":50,"detail":"零食","createTime":null,"discount":0.8,"keyWords":null,"area":"大连","saleCount":null,"classify_id":34,"repertory":null,"recommend":null},"itemPic":{"id":8,"item_id":8,"url":"./image/goods/fruits_1.jpg"}},{"id":21,"parent_id":33,"item":{"id":21,"name":"栗子","price":13,"detail":"很好的","createTime":null,"discount":0.8,"keyWords":null,"area":"哈尔滨市","saleCount":null,"classify_id":63,"repertory":null,"recommend":null},"itemPic":{"id":21,"item_id":21,"url":"./image/goods/fruits_1.jpg"}},{"id":12,"parent_id":48,"item":{"id":12,"name":"乐事薯片","price":4,"detail":"脆爽","createTime":null,"discount":0.7,"keyWords":null,"area":"浙江","saleCount":null,"classify_id":53,"repertory":null,"recommend":null},"itemPic":{"id":12,"item_id":12,"url":"./image/goods/fruits_1.jpg"}},{"id":13,"parent_id":48,"item":{"id":13,"name":"好有趣薯片","price":8,"detail":"百吃不厌","createTime":null,"discount":0.8,"keyWords":null,"area":"上海","saleCount":null,"classify_id":54,"repertory":null,"recommend":null},"itemPic":{"id":13,"item_id":13,"url":"./image/goods/fruits_1.jpg"}},{"id":24,"parent_id":49,"item":{"id":24,"name":"核桃","price":16.2,"detail":"补脑","createTime":null,"discount":0.8,"keyWords":null,"area":"大连","saleCount":null,"classify_id":67,"repertory":null,"recommend":null},"itemPic":{"id":24,"item_id":24,"url":"./image/goods/fruits_1.jpg"}},{"id":15,"parent_id":56,"item":{"id":15,"name":"绿葡萄干","price":23,"detail":"美容养颜","createTime":null,"discount":0.8,"keyWords":null,"area":"大河镇","saleCount":null,"classify_id":57,"repertory":null,"recommend":null},"itemPic":{"id":15,"item_id":15,"url":"./image/goods/fruits_1.jpg"}},{"id":16,"parent_id":56,"item":{"id":16,"name":"黑葡萄干","price":26,"detail":"很好的","createTime":null,"discount":0.8,"keyWords":null,"area":"西安市","saleCount":null,"classify_id":58,"repertory":null,"recommend":null},"itemPic":{"id":16,"item_id":16,"url":"./image/goods/fruits_1.jpg"}}]},{"firstClassify":{"id":5,"parent_id":0,"name":"油粮副食","description":null},"secondClassify":[{"id":20,"parent_id":5,"name":"大米类","description":null},{"id":42,"parent_id":5,"name":"油类","description":null},{"id":43,"parent_id":5,"name":"干粮类","description":null}],"itemPictures":[{"id":9,"parent_id":20,"item":{"id":9,"name":"大米","price":10,"detail":"东北大米","createTime":null,"discount":0.8,"keyWords":null,"area":"哈尔滨","saleCount":null,"classify_id":35,"repertory":null,"recommend":null},"itemPic":{"id":9,"item_id":9,"url":"./image/goods/fruits_1.jpg"}},{"id":19,"parent_id":42,"item":{"id":19,"name":"芝麻油","price":13.2,"detail":"好油","createTime":null,"discount":0.8,"keyWords":null,"area":"铜川市","saleCount":null,"classify_id":61,"repertory":null,"recommend":null},"itemPic":{"id":19,"item_id":19,"url":"./image/goods/fruits_1.jpg"}},{"id":20,"parent_id":42,"item":{"id":20,"name":"玉米油","price":13.2,"detail":"好油","createTime":null,"discount":0.8,"keyWords":null,"area":"渭南市","saleCount":null,"classify_id":62,"repertory":null,"recommend":null},"itemPic":{"id":20,"item_id":20,"url":"./image/goods/fruits_1.jpg"}},{"id":17,"parent_id":43,"item":{"id":17,"name":"玉米","price":3,"detail":"粗粮","createTime":null,"discount":0.8,"keyWords":null,"area":"延安市","saleCount":null,"classify_id":59,"repertory":null,"recommend":null},"itemPic":{"id":17,"item_id":17,"url":"./image/goods/fruits_1.jpg"}},{"id":18,"parent_id":43,"item":{"id":18,"name":"高粱","price":15,"detail":"粗粮","createTime":null,"discount":0.8,"keyWords":null,"area":"汉中市","saleCount":null,"classify_id":60,"repertory":null,"recommend":null},"itemPic":{"id":18,"item_id":18,"url":"./image/goods/fruits_1.jpg"}}]},{"firstClassify":{"id":6,"parent_id":0,"name":"水产海鲜","description":null},"secondClassify":[{"id":21,"parent_id":6,"name":"虾类","description":null},{"id":40,"parent_id":6,"name":"小鱼类","description":null},{"id":41,"parent_id":6,"name":"大鱼类","description":null},{"id":73,"parent_id":6,"name":"螃蟹类","description":null}],"itemPictures":[{"id":7,"parent_id":21,"item":{"id":7,"name":"大虾","price":50,"detail":"富含高蛋白","createTime":null,"discount":1,"keyWords":null,"area":"浙江","saleCount":null,"classify_id":32,"repertory":null,"recommend":null},"itemPic":{"id":7,"item_id":7,"url":"./image/goods/fruits_1.jpg"}},{"id":14,"parent_id":40,"item":{"id":14,"name":"鲶鱼","price":20,"detail":"高蛋白","createTime":null,"discount":1,"keyWords":null,"area":"安康","saleCount":null,"classify_id":55,"repertory":null,"recommend":null},"itemPic":{"id":14,"item_id":14,"url":"./image/goods/fruits_1.jpg"}},{"id":28,"parent_id":41,"item":{"id":28,"name":"草鱼","price":25.9,"detail":"好吃你就多吃点","createTime":null,"discount":0.98,"keyWords":null,"area":"宁波","saleCount":null,"classify_id":72,"repertory":null,"recommend":null},"itemPic":{"id":28,"item_id":28,"url":"./image/goods/fruits_1.jpg"}},{"id":29,"parent_id":73,"item":{"id":29,"name":"螃蟹","price":30.9,"detail":"营养","createTime":null,"discount":0.89,"keyWords":null,"area":"宁波","saleCount":null,"classify_id":74,"repertory":null,"recommend":null},"itemPic":{"id":29,"item_id":29,"url":"./image/goods/fruits_1.jpg"}}]},{"firstClassify":{"id":7,"parent_id":0,"name":"肉禽蛋品","description":null},"secondClassify":[{"id":11,"parent_id":7,"name":"肉类","description":null},{"id":22,"parent_id":7,"name":"蛋类","description":null},{"id":45,"parent_id":7,"name":"猪肉类","description":null},{"id":46,"parent_id":7,"name":"牛肉类","description":null},{"id":70,"parent_id":7,"name":"羊肉类","description":null}],"itemPictures":[{"id":6,"parent_id":11,"item":{"id":6,"name":"牛肉","price":36,"detail":"富含高蛋白","createTime":null,"discount":1,"keyWords":null,"area":"新疆","saleCount":null,"classify_id":12,"repertory":null,"recommend":null},"itemPic":{"id":6,"item_id":6,"url":"./image/goods/fruits_1.jpg"}},{"id":25,"parent_id":22,"item":{"id":25,"name":"鸡蛋","price":8.8,"detail":"好吃","createTime":null,"discount":0.8,"keyWords":null,"area":"大庆","saleCount":null,"classify_id":68,"repertory":null,"recommend":null},"itemPic":{"id":25,"item_id":25,"url":"./image/goods/fruits_1.jpg"}},{"id":26,"parent_id":22,"item":{"id":26,"name":"鸭蛋","price":9.9,"detail":"好吃","createTime":null,"discount":0.8,"keyWords":null,"area":"大庆","saleCount":null,"classify_id":69,"repertory":null,"recommend":null},"itemPic":{"id":26,"item_id":26,"url":"./image/goods/fruits_1.jpg"}},{"id":27,"parent_id":70,"item":{"id":27,"name":"羊肉","price":25.9,"detail":"好吃你就多吃点","createTime":null,"discount":0.99,"keyWords":null,"area":"大庆","saleCount":null,"classify_id":71,"repertory":null,"recommend":null},"itemPic":{"id":27,"item_id":27,"url":"./image/goods/fruits_1.jpg"}}]}];
-var json = {"goods":[{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":3,"name":"香菜","price":30,"detail":"美容养颜","url":"../image/goods/fruits_1.jpg"},{"id":10,"name":"小头菜","price":16,"detail":"健康无毒药","url":"../image/goods/fruits_1.jpg"},{"id":11,"name":"番茄","price":12,"detail":"很好的营养","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"}]};
-//var json = {"goods":[{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"./image/goods/fruits_1.jpg"},{"id":3,"name":"香菜","price":30,"detail":"美容养颜","url":"./image/goods/fruits_1.jpg"},{"id":10,"name":"小头菜","price":16,"detail":"健康无毒药","url":"./image/goods/fruits_1.jpg"},{"id":11,"name":"番茄","price":12,"detail":"很好的营养","url":"./image/goods/fruits_1.jpg"},{"id":6,"name":"番茄","price":12,"detail":"很好的营养","url":"./image/goods/fruits_1.jpg"},]};
+//var json = {"goods":[{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":3,"name":"香菜","price":30,"detail":"美容养颜","url":"../image/goods/fruits_1.jpg"},{"id":10,"name":"小头菜","price":16,"detail":"健康无毒药","url":"../image/goods/fruits_1.jpg"},{"id":11,"name":"番茄","price":12,"detail":"很好的营养","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"},{"id":2,"name":"黄瓜","price":15,"detail":"富含维生素","url":"../image/goods/fruits_1.jpg"}],"total":100,"page":2,"num":10};
  	//拼接字符串后添加到页面内
+
+ 	function setPage(obj){
+ 		$('.totalNum b').text(obj.total);
+ 		$('.pagerCur').text(obj.page);
+ 		$('.pagerTotal').text(obj.num);
+ 	}
+
+ 	function setCarts(){
+ 		var carts = window.sessionStorage.getItem('wh9528');
+ 		var num = 0;
+ 		if(carts){
+ 			carts = JSON.parse(carts);
+	 		for(var n in carts){
+	 			num +=parseFloat(carts[n].number);
+	 		}
+ 		}
+ 		$('.cartNumber').text(num);
+ 	}
+
 	function getMenu(obj){
-		var str_1 = '';
-		var str_2 = '';
-		var str_4 = '';
-		var choice = '';
+		setPage(obj);
+		var choice = $('<div></div>');
+		choice.attr("id","searchResultsList");
+		var ul = $('<ul></ul>');
 		//商品具体内容拼接插入页面
-		$.each(obj, function(index, el) {
-			//str_4 += '<div class=\"choice\"><div class=\"choice_left fl choice_left_'+ (index+1) +'\"><h2>'+ obj[index].firstClassify.name +'</h2><div><a href=\"#\"><img src=\"./image/goods/fruit_'+ (index+1) +'.jpg\"></a></div></div><div class=\"choice_right fl\"><ul class=\"clear\"></ul><div class=\"choice_right_cont\"></div></div></div>})';
-			choice = $('<div></div>');
-			choice.addClass("choice");
-			var choice_right = $("<div></div>");
-			choice_right.addClass("choice_right").addClass("fl");
-			var choice_right_cont = $("<div></div>");
-			choice_right_cont.addClass("choice_right_cont");
-			choice_right.append(choice_right_cont);
-			choice.append(choice_right);
+		$.each(obj.data, function(num, el) {
+			var a = $('<a></a>');
+			//a.attr("href","detail.html?id="+obj.goods[num].id);
+			a.attr("dataID",obj.data[num].id);
+			var li = $('<li></li>');
+			li.addClass("fl");
+
+			var imageDiv = $('<div></div>');
+			imageDiv.addClass("wrapImgs");
+			var image = $('<img></img>');
+			image.attr("onclick","window.top.location.href='detail.html?id="+obj.data[num].id+"'");
+			image.attr("src",obj.data[num].images);
+			imageDiv.append(image);
+			li.append(imageDiv);
+
+			var p1 = $('<p></p>');
+			p1.addClass('productdescription');
+			p1.text(obj.data[num].name);
+			li.append(p1);
+
+			var p2 = $('<p></p>');
+			p2.addClass('productPrice');
+			var span = $('<span></span>');
+			span.addClass('nowPrice').addClass('fl');
+			span.text('￥'+obj.data[num].price);
+			p2.append(span);
+
+			var cart = $('<span></span>');
+			cart.addClass('btnCart');
+			cart.text('加入购物车');
+			p2.append(cart);
+			
+			li.append(p2);
+			var stock = obj.data[num].stock;
+			cart.on('click',function(){
+				var parent = $(this).parents('a');
+				var item = parent.attr("dataID");
+				item = "item"+item;
+				var cart = window.sessionStorage.getItem('wh9528');
+				if(!cart){
+					cart = "{}";
+				}
+				cart = JSON.parse(cart);
+				if(cart[item]){
+					cart[item].number = cart[item].number+1;
+				}else{
+					var name = parent.find(".productdescription").text();
+					var url = parent.find("img").attr("src");
+					var price = parent.find(".nowPrice").text();
+					
+					var obj = {
+						"name":name,
+						"url":url,
+						"price":price.replace("￥","").trim(),
+						"number":1,
+						"stock":stock
+					}
+					cart[item] = obj;
+				}
+				var num = 0;
+				if($('.cartNumber').text()){
+					num = parseInt($('.cartNumber').text())+1
+				}
+				$('.cartNumber').text(num);
+				window.sessionStorage.setItem('wh9528',JSON.stringify(cart));
+			});
+
+			a.append(li);
+			ul.append(a);
 		});
 
-		$('#slider').after(choice);
-		var choice_right_cont = $('.choice_right_cont')
-		var goods = '';
-		$.each(obj.goods, function(num, el) {
-			//str_6 +='<div class=\"choice_right_cont_goods fl\"><div class=\"\"><img  data-src=\"'+ obj[index].itemPictures[num].itemPic.url +'\"></div><h3 class=\"goodsTitle\">'+ obj[index].itemPictures[num].item.detail +' </h3><p>￥<span class=\"nowPrice\">'+ obj[index].itemPictures[num].item.price +'</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class=\"oldPrice\">'+ obj[index].itemPictures[num].item.discount +'</span>折</p></div>';
-			goods = $("<div></div>");
-			goods.addClass("choice_right_cont_goods").addClass("fl");
-			goods.append($('<div><img  data-src=\"'+ obj.goods[num].url +'\"></div>'));
-			var goodsTitle = $("<h3></h3>");
-			goodsTitle.addClass("goodsTitle");
-			goodsTitle.text(obj.goods[num].detail);
-			var goodsPrice = $("<p></p>");
-			goodsPrice.append($('<span class=\"nowPrice\">￥'+ obj.goods[num].price +'</span>'));
-			goods.append(goodsTitle);
-			goods.append(goodsPrice);
-			choice_right_cont.append(goods);
-		});	
+		choice.append(ul);
+		$('#searchResultsList').remove();
+
+		$('#priceSales').after(choice);
 	}
+
+	$('.searchBtn').on("click",function(){
+		menu();
+	})
+	menu();
+
+	//价格排序
+	$(".priceBtn").on('click',function(){
+		var hidden1 = $('.arrow.asc').css("display");
+		var hidden2 = $('.arrow.dsc').css("display");
+		var asc = true;
+		if((hidden1 == 'none' && hidden2 == 'none')){
+			$('.arrow.asc').css("display","inline-block");
+		}
+		if((hidden1 == 'none' && hidden2 != 'none')){
+			$('.arrow.asc').css("display","inline-block");
+			$('.arrow.dsc').css("display","none");
+		}
+		if((hidden1 != 'none' && hidden2 == 'none')){
+			$('.arrow.asc').css("display","none");
+			$('.arrow.dsc').css("display","inline-block");
+			asc = false
+		}
+		menu();
+	});
+
+	//上一页
+	$('.pagerPrev').on('click',function(){
+		var pagerCur = $('.pagerCur').text();
+		if(pagerCur == 1 || !pagerCur){
+			return;
+		}
+		$('.pagerCur').text(parseInt(pagerCur)-1);
+		menu();
+	});
+
+	//下一页
+	$('.pagerNext').on('click',function(){
+		var pagerCur = $('.pagerCur').text();
+		var pagerTotal = $('.pagerTotal').text();
+		if(pagerCur == pagerTotal || !pagerCur){
+			return;
+		}
+		$('.pagerCur').text(parseInt(pagerCur)+1);
+		menu();
+	});
+	
+	//getMenu(json);
+	setCarts();
+
+	//鼠标放在购物车上面出现详细商品列表
+	$('#hoverCart').hoverDelay({
+			hoverDuring: 100,
+            outDuring: 100,
+            hoverEvent: function(){
+            	var carts = window.sessionStorage.getItem('wh9528');
+            	if(!carts){
+            		carts = "{}";
+            	}
+            	carts = JSON.parse(carts);
+				$('#cartGoods').show();
+				var str_1 = '';
+				var str_2 = '';
+				var totalPrice = 0;
+				var totalNumber = 0;
+				//for(var i=0; i<cartsGoods.length; i++){
+				for(var key in carts){
+					var cartsGoods = carts[key];
+					str_1 += '<li><div class="goodsImg fl"><img src="'+ cartsGoods.url +'"></div><div class="goodsDisc fl"><a href="javascript:void(0)">'+ cartsGoods.name  +'</a></div><div class="fr goodsOperation">￥<span class="unitPrice">'+ cartsGoods.price +'</span>×<span class="theNumber">'+ cartsGoods.number +'</span><br /></div></li>';
+					totalPrice += parseFloat(cartsGoods.price);
+					totalNumber +=parseFloat(cartsGoods.number);
+				}
+				$('#cartGoods ul').html(str_1);
+				str_2 = '<div class="total"><div class="totalLeft fl">共<span class="totalNumber">'+ totalNumber +'</span>件商品&nbsp;&nbsp;&nbsp;共计￥<span class="totalPrice">'+ totalPrice +'</span>元</div><div class="totalRight fr">去结算</div></div>';
+				$('#cartGoods ul').append(str_2);
+				$('.totalRight').on('click',function(){
+					window.top.location.href = "cart.html";
+				});
+            },
+            outEvent: function(){
+                $('#cartGoods').hide();
+            }
+		
+	});
+
+
+
+	//页面初始化
+
 	//图片延迟加载
-	getMenu(json);
 	var fn = function(){
 	    $(".choice_right img").each(function() {//遍历所有图片
 	        var othis = $(this),//当前图片对象
@@ -134,60 +299,7 @@ var json = {"goods":[{"id":2,"name":"黄瓜","price":15,"detail":"富含维生�
 	});
 	fn();
 
-	//鼠标放在购物车商品中出现购物车详情
-	var carts = null;
-	var cartsGoods = [
-			// { 
-			// 	"url":"./image/cart/cartApple_1.jpg",
-			// 	"name":"这是苹果哦",
-			// 	"price":15.00,
-			// 	"number":1
-			// },
-			// { 
-			// 	"url":"./image/cart/cartApple_1.jpg",
-			// 	"name":"这是苹果哦",
-			// 	"price":17.00,
-			// 	"number":2
-			// },
-			// { 
-			// 	"url":"./image/cart/cartApple_1.jpg",
-			// 	"name":"这是苹果哦",
-			// 	"price":11.00,
-			// 	"number":3
-			// },
-			// { 
-			// 	"url":"./image/cart/cartApple_1.jpg",
-			// 	"name":"这是苹果哦",
-			// 	"price":18.00,
-			// 	"number":4
-			// }
-		];
 	
-
-	//鼠标放在购物车上面出现详细商品列表
-	$('#hoverCart').hoverDelay({
-			hoverDuring: 100,
-            outDuring: 100,
-            hoverEvent: function(){
-				$('#cartGoods').show();
-				var str_1 = '';
-				var str_2 = '';
-				var totalPrice = 0;
-				var totalNumber = 0;
-				for(var i=0; i<cartsGoods.length; i++){
-					str_1 += '<li><div class="goodsImg fl"><img src="'+ cartsGoods[i].url +'"></div><div class="goodsDisc fl"><a href="javascript:void(0)">'+ cartsGoods[i].name  +'</a></div><div class="fr goodsOperation">￥<span class="unitPrice">'+ cartsGoods[i].price +'</span>×<span class="theNumber">'+ cartsGoods[i].number +'</span><br /><a href="javascript:void(0)" class="deleteGoods">删除</a></div></li>';
-					totalPrice += parseFloat(cartsGoods[i].price);
-					totalNumber +=parseFloat(cartsGoods[i].number);
-				}
-				$('#cartGoods ul').html(str_1);
-				str_2 = '<div class="total"><div class="totalLeft fl">共<span class="totalNumber">'+ totalNumber +'</span>件商品&nbsp;&nbsp;&nbsp;共计￥<span class="totalPrice">'+ totalPrice +'</span>元</div><div class="totalRight fr">去结算</div></div>';
-				$('#cartGoods ul').append(str_2);
-            },
-            outEvent: function(){
-                $('#cartGoods').hide();
-            }
-		
-	});
 	
 
 

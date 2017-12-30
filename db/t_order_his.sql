@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `t_order`;
-CREATE TABLE `t_order` (
+DROP TABLE IF EXISTS `t_order_his`;
+CREATE TABLE `t_order_his` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `create_time` bigint(20) NOT NULL,
   `order_id` bigint(20) NOT NULL,

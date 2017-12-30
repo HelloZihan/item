@@ -13,6 +13,6 @@ public interface UserMapper {
 	@SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = Long.class)
 	int addUser(User user);
 
-	@Select("select id, name,password,role from t_user")
+	@Select("select id, name,password,role from t_user_view")
 	List<User> selectAll();
 }

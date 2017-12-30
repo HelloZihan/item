@@ -2,9 +2,7 @@ package com.bjtu.item.utils;
 
 import org.slf4j.Logger;
 
-/**
- * Created by zj on 17-9-20.
- */
+
 public class LoggerUtil {
 	private static final String COLON_PREFIX = ":";
 

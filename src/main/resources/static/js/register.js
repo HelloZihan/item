@@ -3,7 +3,7 @@ require.config({
         'jquery': 'jquery-1.8.0'
     }
 });
-require(['jquery'], function($) {
+require(['jquery','common'], function($,common) {
 	//定义标识符，判断提交之前表单是否都正确
 	var allsFlagUser = false,
 		allsFlagPass = false,
@@ -221,6 +221,7 @@ require(['jquery'], function($) {
 			}				
 
 	});
+
 	//点击提交按钮
 	$('#btn').bind('click',function(){
 		if(allsFlagUser && allsFlagConfirmPass){
@@ -228,11 +229,10 @@ require(['jquery'], function($) {
 			 	"name":$("#user").val(),
 			 	"password":$("#pass").val()
 			 }
-			 var url = "http://192.168.1.107:8082/item/api/json/user/register";
 			 $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: url,
+                url: common("register"),
                 data: data,
                 success: function (result) {
                     if(result.success){
@@ -243,7 +243,7 @@ require(['jquery'], function($) {
                     }
                 },
                 error: function(data) {
-                    alert("error:"+data);
+                    alert("error:请求错误");
                  }
              });
 		}	

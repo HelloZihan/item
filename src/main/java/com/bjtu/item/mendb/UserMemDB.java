@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class UserMemDB {
 	private static SessionFactory sessionFactory;
 	public static Map<Long, User> userMap = new HashMap<>();
 	public static Map<String, User> userNameMap = new HashMap<>();
+	public static Map<String, HttpSession> sessionMap = new HashMap<>();
 
 	@Autowired
 	private void inject(SessionFactory sessionFactory) {

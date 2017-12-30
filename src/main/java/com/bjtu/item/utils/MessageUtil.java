@@ -31,7 +31,7 @@ public class MessageUtil {
         workingMessage.put(CODE_SYS_UNEXPECTED_ERROR, "账号不存在");
         workingMessage.put(CODE_SYS_ILLEGAL_OPERATION, "密码不对");
         workingMessage.put(CODE_SYS_INTERNAL_ERROR, "Internal exception: {0}");
-        workingMessage.put(CODE_DB_ERROR, "SYSTEM.0007");
+        workingMessage.put(CODE_DB_ERROR, "您需要先登录");
         workingMessage.put(CODE_UNKNOWN_ERROR, "网络异常");
         workingMessage.put(CODE_DB_ERROR_IDEMPOTENT, "Please do not retry, already successfully.");
         workingMessage.put(CODE_BANNERS_NUMBER_NOT_RIGHT, "Banners number is not right");

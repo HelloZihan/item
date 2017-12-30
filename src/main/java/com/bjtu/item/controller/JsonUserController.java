@@ -15,14 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 public class JsonUserController {
 
-	private Logger logger = LoggerFactory.getLogger(SampleController.class);
+	private Logger logger = LoggerFactory.getLogger(JsonUserController.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -30,25 +30,11 @@ public class JsonUserController {
 	@RequestMapping(value = "/api/json/user/register", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public String register(HttpServletRequest request,
-						   HttpServletResponse res,
 					@RequestParam(value = "name") String name,
 					@RequestParam(value = "role",defaultValue = "1") Byte role,
 					@RequestParam(value = "password") String password) {
 
 
-		res.setContentType("text/html;charset=UTF-8");
-
-		res.setHeader("Access-Control-Allow-Origin", "*");
-
-		res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-
-		res.setHeader("Access-Control-Max-Age", "0");
-
-		res.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,userId,token");
-
-		res.setHeader("Access-Control-Allow-Credentials", "true");
-
-		res.setHeader("XDomainRequestAllowed","1");
 
 		String s = MD5Util.digestPassword(password);
 		String finalName = name.trim();
@@ -66,10 +52,12 @@ public class JsonUserController {
 			if (row > 0) {
 				UserMemDB.addUses(user);
 			}
+			HttpSession session = request.getSession();
+			UserMemDB.sessionMap.put(session.getId(), session);
 			Map<String, Object> map = new HashMap<>();
 			map.put("id", user.getId());
 			map.put("name", user.getName());
-
+			map.put("role", user.getRole());
 			return ApiResult.succStr(map);
 		} catch (Exception e) {
 			LoggerUtil.error(logger, e);
@@ -81,23 +69,9 @@ public class JsonUserController {
 
 	@RequestMapping(value = "/api/json/user/login", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	@ResponseBody
-	public String login(HttpServletResponse res,
+	public String login(HttpServletRequest request,
 			@RequestParam(value = "name") String name,
 			@RequestParam(value = "password") String password) {
-
-		res.setContentType("text/html;charset=UTF-8");
-
-		res.setHeader("Access-Control-Allow-Origin", "*");
-
-		res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-
-		res.setHeader("Access-Control-Max-Age", "0");
-
-		res.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,userId,token");
-
-		res.setHeader("Access-Control-Allow-Credentials", "true");
-
-		res.setHeader("XDomainRequestAllowed","1");
 
 		String finalName = name.trim();
 		String s = MD5Util.digestPassword(password);
@@ -110,6 +84,8 @@ public class JsonUserController {
 			return ApiResult.errorStr(MessageUtil.CODE_SYS_ILLEGAL_OPERATION,MessageUtil.get(MessageUtil.CODE_SYS_ILLEGAL_OPERATION));
 
 		}
+		UserMemDB.sessionMap.put(request.getSession().getId(), request.getSession());
+
 		Map<String, Object> map = new HashMap<>();
 		map.put("id", user.getId());
 		map.put("name", user.getName());
