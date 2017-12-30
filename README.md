@@ -13,3 +13,5 @@ application.yml修改为自己的数据库配置
 最后建立t_item表，执行t_item文件。
 
 运行Application.java的main方法
+
+访问链接http://127.0.0.1:8082/item/page/index.html

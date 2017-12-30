@@ -150,6 +150,7 @@ require(['jquery', 'common', 'jqueryExtend'], function($,common) {
 	//数量+
 	var $cartsNumberInput = $('.cartsNumber input');
 	$('.plus').on('click', function () {
+	    var stock = parseInt($('.stock').html());
 		var num = parseInt($cartsNumberInput.val());
 		if(num >= stock){
 			return;
@@ -159,6 +160,7 @@ require(['jquery', 'common', 'jqueryExtend'], function($,common) {
 	});
 	//数量-
 	$('.decrease').on('click', function () {
+	    var stock = parseInt($('.stock').html());
 		var num = parseInt($cartsNumberInput.val());
 		if(num <= 0){
 			return;
@@ -168,7 +170,8 @@ require(['jquery', 'common', 'jqueryExtend'], function($,common) {
 	});
 	//直接修改数量input，失去焦点时进行检查数量时检查是否超过库存
 	$cartsNumberInput.on('blur', function() {
-		var num = $(this).val();
+	    var stock = parseInt($('.stock').html());
+		var num = parseInt($(this).val());
 		if(num >= stock){
 			$(this).attr('value', stock);
 		}else{

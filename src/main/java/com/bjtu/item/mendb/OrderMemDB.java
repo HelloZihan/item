@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Component
@@ -21,7 +22,7 @@ public class OrderMemDB {
     private static final Logger log = LoggerFactory.getLogger(OrderMemDB.class);
 
     private static SessionFactory sessionFactory;
-    public static Map<Long, Order> orderMap = new HashMap<>();
+    public static Map<Long, Order> orderMap = new ConcurrentHashMap<>();
 
     @Autowired
     private void inject(SessionFactory sessionFactory) {

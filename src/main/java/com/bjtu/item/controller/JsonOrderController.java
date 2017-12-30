@@ -59,6 +59,11 @@ public class JsonOrderController {
             context.commit();
             if (row > 0) {
                 OrderMemDB.addOrder(order);
+                map.keySet().forEach(l->{
+                    Item item = ItemMemDB.itemMap.get(l);
+                    if(item.getStock()>=map.get(l))
+                        item.setStock(item.getStock() - map.get(l));
+                });
             }
             return ApiResult.succStr();
         } catch (Exception e) {
@@ -86,7 +91,7 @@ public class JsonOrderController {
         try {
             List<Map<String, Object>> orders= context.getMapper(OrderMapper.class).selectByUid(userId);
             if (orders.size()>0) {
-                orders.forEach( o->{
+                orders.forEach(o -> {
                     Map<Long, Integer> map = JsonUtil.fromJson(o.get("jsonItemIdQty").toString(), new TypeToken<Map<Long, Integer>>() {}.getType());
                     map.keySet().forEach(l->{
                         Item item = ItemMemDB.itemMap.get(l);

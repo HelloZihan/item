@@ -14,15 +14,16 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class UserMemDB {
 	private static final Logger log = LoggerFactory.getLogger(UserMemDB.class);
 
 	private static SessionFactory sessionFactory;
-	public static Map<Long, User> userMap = new HashMap<>();
-	public static Map<String, User> userNameMap = new HashMap<>();
-	public static Map<String, HttpSession> sessionMap = new HashMap<>();
+	public static Map<Long, User> userMap = new ConcurrentHashMap<>();
+	public static Map<String, User> userNameMap = new ConcurrentHashMap<>();
+	public static Map<String, HttpSession> sessionMap = new ConcurrentHashMap<>();
 
 	@Autowired
 	private void inject(SessionFactory sessionFactory) {

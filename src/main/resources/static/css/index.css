@@ -37,7 +37,7 @@ a.pagerNext:hover{background-position: -12px -14px;}
 p.productdescription{ margin-top:10px; font:12px/25px "微软雅黑"; color:#2b2b2b; letter-spacing:1px;}
 p.productPrice{height:35px; font:12px/35px "微软雅黑"; padding:0 10px;}
 p.productPrice span.nowPrice{color:#41A53A;font-size:18px;}
-p .btnCart{ width:80px; marheight:30px; cursor:pointer; background:#43993F; margin-left:calc(100% - 120px); text-align:center; font:12px/30px "微软雅黑"; color:#fff; border-radius:5px; vertical-align:middle; display:inline-block; transition:all .6s; -webkit-transition: all .6s; -moz-transition: all .6s; -ms-transition: all .6s;}
+p .btnCart{ width:80px; marheight:30px; cursor:pointer; background:#43993F; margin-left:calc(100% - 130px); text-align:center; font:12px/30px "微软雅黑"; color:#fff; border-radius:5px; vertical-align:middle; display:inline-block; transition:all .6s; -webkit-transition: all .6s; -moz-transition: all .6s; -ms-transition: all .6s;}
 p .btnCart:hover{background:#398136;}
 .arrow {  
           display: inline-block;  

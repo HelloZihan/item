@@ -7,7 +7,7 @@ require(['jquery','common','jqueryExtend'], function($,common) {
 	function initOrder(obj){
 		$.each(obj,function(key){
 			var tr = $('<tr></tr>');
-			tr.append('<td><a href="detail.html?id='+obj[key].id+'"><img src="'+obj[key].item.images+'"></a></td>')
+			tr.append('<td><a href="detail.html?id='+obj[key].item.id+'"><img src="'+obj[key].item.images+'"></a></td>')
 			tr.append('<td>'+JSON.parse(window.sessionStorage["wh9527"]).name+'</td>');
 			tr.append('<td>￥<span>'+obj[key].price+'</span>');
 			tr.append('<td><span>'+pasreDate(obj[key].createTime)+'</span>');
